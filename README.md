@@ -1,5 +1,5 @@
 # logger
-logrus,lfshook,rotatelogs for logs
+logrus for gin
 
 # install
 ```shell
