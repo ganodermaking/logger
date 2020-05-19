@@ -1,33 +1,37 @@
 # logger
+
 logrus for gin
 
-# install
+## install
+
 ```shell
 go get github.com/ganodermaking/logger
 ```
 
-# used
+## used
+
 ```go
 package main
 
 import (
-	"github.com/ganodermaking/logger"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+ "github.com/ganodermaking/logger"
+ "github.com/gin-gonic/gin"
+ "github.com/sirupsen/logrus"
 )
 
 func main() {
-	// 初始化
-	logger.NewLogger("./logs/debug.log")
+ // 初始化
+ logger.NewLogger("./logs/debug.log")
 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		message := "hello world"
-		logrus.Info(message)
-		c.JSON(200, gin.H{
-			"message": message,
-		})
-	})
-	r.Run(":8081")
+ r := gin.Default()
+ r.Use(logger.Middleware("./logs/debug.access.log"))
+ r.GET("/ping", func(c *gin.Context) {
+  message := "hello world"
+  logrus.Info(message)
+  c.JSON(200, gin.H{
+   "message": message,
+  })
+ })
+ r.Run(":8081")
 }
 ```

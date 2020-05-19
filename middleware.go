@@ -3,7 +3,6 @@ package logger
 import (
 	"fmt"
 	"os"
-	"path"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -11,12 +10,9 @@ import (
 )
 
 // Middleware ...
-func Middleware(logDir, logFile string) gin.HandlerFunc {
-	// 日志文件
-	fileName := path.Join(logDir, logFile)
-
+func Middleware(fileName string) gin.HandlerFunc {
 	// 写入文件
-	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	src, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("err", err)
 	}
@@ -59,7 +55,7 @@ func Middleware(logDir, logFile string) gin.HandlerFunc {
 		clientIP := c.ClientIP()
 
 		// 日志格式
-		logger.Infof("| %3d | %13v | %15s | %s | %s |",
+		logger.Infof("| %d | %v | %s | %s | %s |",
 			statusCode,
 			latencyTime,
 			clientIP,
