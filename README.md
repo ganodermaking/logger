@@ -20,11 +20,10 @@ import (
 )
 
 func main() {
- // 初始化
- logger.NewLogger("./logs/debug.log")
+ logger.NewLogger("./logs/debug.log")  // 错误日志
 
  r := gin.Default()
- r.Use(logger.Middleware("./logs/debug.access.log"))
+ r.Use(logger.Middleware("./logs/debug.access.log")) // 访问日志
  r.GET("/ping", func(c *gin.Context) {
   message := "hello world"
   logrus.Info(message)
